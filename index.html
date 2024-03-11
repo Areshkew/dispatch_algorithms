@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Dispatch Algorithms - Gustavo Ramirez</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body class="flex justify-center align-center">
+    <div class="container">
+        <form id="add_process"></form>
+        <form id="print_graph"></form>
+        <h1 class="title">Dispatch Algorithms</h1>
+
+        <div class="form">
+            <div class="form__processes">
+                <span class="processes__title">Add a new Process</span>
+
+                <div class="processes__add flex">
+                    <input type="number" name="phaseTime" form="add_process" placeholder="Phase Time" class="input-style" required>
+                    <input type="number"  name="arrivalTime" form="add_process" placeholder="Arrival Time" class="input-style" required>
+                    <button type="submit" class="button-add" form="add_process">+</button>
+                </div>
+                
+                <div class="processes__list-wrapper">
+                    <table class="processes__list">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Phase Time</th>
+                                <th>Arrival Time</th>
+                                <th> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Process rows will be dynamically added here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        
+            <div class="form__config flex">
+                <span class="processes__title">Select Algorithm for Solving</span>
+
+                <div class="processes__add flex">
+                    <label for="fifo">
+                        <input type="radio" id="fifo" form="print_graph" name="algorithm" class="radio-style" value="FIFO" checked>
+                        FIFO
+                    </label>
+                    <label for="sjf">
+                        <input type="radio" id="sjf" form="print_graph" name="algorithm" class="radio-style" value="SJF">
+                        SJF
+                    </label>
+                    <label for="round_robin">
+                        <input type="radio" id="round_robin" form="print_graph" name="algorithm" class="radio-style" value="ROUND_ROBIN">
+                        Round Robin
+                    </label>
+                </div>
+                
+                <div class="processes__add flex justify-center">
+                    Q-value:
+                    <input type="number"  name="Q-value" form="print_graph" placeholder="Q value" class="input-style" value="2" required>
+                </div>
+                <button type="submit" class="button-add" form="print_graph">Solve</button>
+
+                <div class="processes__add flex justify-center">
+                    
+                    <span >Waiting Time: <span id="waiting_time"> - </span></span>
+                    <span >System Time: <span id="system_time"> - </span></span>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="scroll-container flex justify-center">
+        </div>
+
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>
