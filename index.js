@@ -118,8 +118,8 @@ function drawProcessGraph(algorithm) {
             .attr("fill", "steelblue");
     });
 
-    _waitingTime.innerText = waitingTime / Processes.length;
-    _systemTime.innerText = systemTime / Processes.length;
+    _waitingTime.innerText = (waitingTime / Processes.length).toFixed(2);
+    _systemTime.innerText = (systemTime / Processes.length).toFixed(2);
 }
 
 function drawRoundRobin(qValue) {
@@ -161,11 +161,10 @@ function drawRoundRobin(qValue) {
 
     // Calculate waiting and system times based on the updated times
     processesToSchedule.forEach(process => {
-        if (process.times.length > 0) {
-            const firstStart = process.times[0].start;
-            waitingTime += firstStart - process.arrivalTime;
-            systemTime += process.times.reduce((acc, time) => acc + time.duration, 0, process.arrivalTime);
-        }
+        let totalDuration = process.times.reduce((acc, time) => acc + time.duration, 0);
+        let lastFinishTime = process.times[process.times.length - 1].start + process.times[process.times.length - 1].duration;
+        waitingTime += lastFinishTime - process.arrivalTime - totalDuration;
+        systemTime += lastFinishTime - process.arrivalTime;
     });
 
     x.domain([0, Math.max(...processesToSchedule.flatMap(p => p.times.map(t => t.start + t.duration)))]);
@@ -191,8 +190,8 @@ function drawRoundRobin(qValue) {
         });
     });
 
-    _waitingTime.innerText = waitingTime / Processes.length;
-    _systemTime.innerText = systemTime / Processes.length;
+    _waitingTime.innerText = (waitingTime / Processes.length).toFixed(2);
+    _systemTime.innerText = (systemTime / Processes.length).toFixed(2);
 }
 
 addProcessForm.addEventListener('submit', (e) => {
@@ -205,6 +204,11 @@ addProcessForm.addEventListener('submit', (e) => {
 
     if(arrivalTime < 0 || phaseTime < 0){
         alert("Use Positive Values!");
+        return;
+    }
+
+    if (arrivalTime > 3600 || phaseTime > 600) {
+        alert(`Please use values less than 600 seconds for arrival time and less than 3600 seconds for phase time.`);
         return;
     }
 
